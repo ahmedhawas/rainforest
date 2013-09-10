@@ -1,14 +1,30 @@
 class ProductsController < ApplicationController
   def index
   	@products = Product.all
+
+  	respond_to do |format|
+  		format.html 
+  		format.json { render json: @products}
+  	end
   end
 
   def show
   	@product = Product.find(params[:id])
+
+  	respond_to do |format|
+  		format.html 
+  		format.json { render json: @products}
+  	end
+
   end
 
   def new
   	@product = Product.new
+
+  	respond_to do |format|
+  		format.html 
+  		format.json { render json: @products}
+  	end
   end
 
   def edit 
@@ -19,9 +35,11 @@ class ProductsController < ApplicationController
   	@product = Product.new(params[:product])
 
   	if @product.save
-  		redirect_to products_url
+  		format.html { redirect_to @product, notice: 'Product was successfully created.' }
+        format.json { render json: @product, status: :created, location: @product }
   	else
-  		render :new
+  		format.html { render action: "new" }
+        format.json { render json: @product.errors, status: :unprocessable_entity }		
   	end
   end
 
@@ -29,9 +47,11 @@ class ProductsController < ApplicationController
   	@product = Product.find(params[:id])
 
   	if @product.update_attributes(params[:product])
-  		redirect_to product_path(@product)
+  		format.html { redirect_to @product, notice: 'Product was successfully updated.' }
+        format.json { head :no_content }
   	else 
-  		render :edit 
+  		format.html { render action: "edit" }
+        format.json { render json: @product.errors, status: :unprocessable_entity }
   	end
   end
 
@@ -39,6 +59,10 @@ class ProductsController < ApplicationController
   	@product = Product.find(params[:id])
   	@product.destroy
   	redirect_to products_path
-  end
 
+  	respond_to do |format|
+      format.html { redirect_to products_url }
+      format.json { head :no_content }
+    end
+  end
 end
