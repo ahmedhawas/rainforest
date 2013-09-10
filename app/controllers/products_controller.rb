@@ -31,17 +31,19 @@ class ProductsController < ApplicationController
   	@product = Product.find(params[:id])
   end
 
-  def create 
-  	@product = Product.new(params[:product])
+def create
+    @product = Product.new(params[:product])
 
-  	if @product.save
-  		format.html { redirect_to @product, notice: 'Product was successfully created.' }
+    respond_to do |format|
+      if @product.save
+        format.html { redirect_to @product, notice: 'Product was successfully created.' }
         format.json { render json: @product, status: :created, location: @product }
-  	else
-  		format.html { render action: "new" }
-        format.json { render json: @product.errors, status: :unprocessable_entity }		
-  	end
-  end
+      else
+        format.html { render action: "new" }
+        format.json { render json: @product.errors, status: :unprocessable_entity }
+      end
+    end
+end
 
   def update 
   	@product = Product.find(params[:id])
