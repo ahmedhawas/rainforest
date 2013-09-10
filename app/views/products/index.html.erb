@@ -4,6 +4,9 @@
 
 <ul>
 <% @products.each do |product| %>
-  <li> <%= product[:description] %>, <%= product[:name] %>, <%= product[:price_in_cents] %> </li>
+  <li> <p> <%= product[:name] %> </p> <p><%= product[:description] %></p> <p><%= product[:price_in_cents] %></p> 
+  	<p>Price in Dollars: <%= product.formatted_price %></p>
+  </li>
+
 <% end %>
 </ul>
