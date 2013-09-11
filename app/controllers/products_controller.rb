@@ -11,9 +11,13 @@ class ProductsController < ApplicationController
   def show
   	@product = Product.find(params[:id])
 
+    if current_user
+      @review = @product.reviews.build
+    end
+
   	respond_to do |format|
   		format.html 
-  		format.json { render json: @products}
+  		format.json { render json: @product}
   	end
 
   end
@@ -67,4 +71,5 @@ end
       format.json { head :no_content }
     end
   end
+
 end
