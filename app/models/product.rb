@@ -1,7 +1,7 @@
 class Product < ActiveRecord::Base
-  attr_accessible :description, :name, :price_in_cents
+  attr_accessible :description, :name, :price_in_cents, :category, :poster_name 
 
-  validates :description, :name, :presence => true
+  validates :description, :category, :name, :presence => true
   validates :price_in_cents, :numericality => {:only_integer => true}
 
   def formatted_price
@@ -11,4 +11,5 @@ class Product < ActiveRecord::Base
 
    has_many :reviews 
    has_many :users, :through => :reviews
+   
 end

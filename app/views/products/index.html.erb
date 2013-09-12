@@ -2,10 +2,15 @@
 
 <%= link_to "New Product", "/products/new" %>
 
+<% if current_user %>
+<% user= current_user %>
+<%= link_to "View My Profile", user_path(user.id) %>
+<% end %>
+
 <ul>
 <% @products.each do |product| %>
-  <li> <p> <%= product[:name] %> </p> <p><%= product[:description] %></p> <p><%= product[:price_in_cents] %></p> 
-  	<p>Price in Dollars: <%= product.formatted_price %></p>
+  <li> <p> <%= link_to product[:name], product_path(product.id) %> </p> <p><%= product[:description] %></p> <p><%= product[:category] %></p> 
+  	<p>Price: $<%= product.formatted_price %></p>
   </li>
 
 <% end %>

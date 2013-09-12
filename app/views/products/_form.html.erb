@@ -23,6 +23,11 @@
     <%= f.text_field "price_in_cents" %>
   </p>
   <p>
+    <%= f.label "Category" %><br>
+    <%= f.select :category, [['Music','music'],['Movies','movies'],['Computers', 'computers'],['Other','other']] %>
+  </p>
+
+  <p>
     <%= f.submit "Save" %> 
   </p>
 <% end %>

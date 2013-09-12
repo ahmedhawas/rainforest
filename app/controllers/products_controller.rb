@@ -1,5 +1,6 @@
 class ProductsController < ApplicationController
   before_filter :ensure_logged_in, :only => [:show]
+  before_filter :get_product, :only => [:show, :edit, :destroy, :update]
 
   def index
   	@products = Product.all
@@ -11,7 +12,7 @@ class ProductsController < ApplicationController
   end
 
   def show
-  	@product = Product.find(params[:id])
+    @reviews = @product.reviews.order("created_at DESC")
 
     if current_user
       @review = @product.reviews.build
@@ -34,7 +35,6 @@ class ProductsController < ApplicationController
   end
 
   def edit 
-  	@product = Product.find(params[:id])
   end
 
 def create
@@ -52,7 +52,6 @@ def create
 end
 
   def update 
-  	@product = Product.find(params[:id])
 
   	if @product.update_attributes(params[:product])
   		format.html { redirect_to @product, notice: 'Product was successfully updated.' }
@@ -64,14 +63,17 @@ end
   end
 
   def destroy
-  	@product = Product.find(params[:id])
   	@product.destroy
-  	redirect_to products_path
 
   	respond_to do |format|
       format.html { redirect_to products_url }
       format.json { head :no_content }
     end
+  end
+
+  private
+  def get_product
+    @product = Product.find(params[:id])
   end
 
 end
